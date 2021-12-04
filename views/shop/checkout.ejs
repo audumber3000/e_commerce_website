@@ -1,0 +1,85 @@
+<%- include ../partials/header %> <%- include ../partials/categories-navbar %>
+<div class="container mt-4 mb-5">
+  <!-- Flash messages -->
+  <div class="row mt-3 mb-3">
+    <div class="col-md-8 m-auto">
+      <% if (errorMsg) { %>
+      <div id="error" class="alert alert-danger">
+        <%= errorMsg %>
+      </div>
+      <% } else { %>
+      <div id="error" class="alert alert-danger d-none"></div>
+      <% } %>
+    </div>
+  </div>
+  <div class="col-md-8 m-auto">
+    <!-- Checkout form -->
+    <form action="/checkout" method="POST" id="checkout-form">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="card-name">Full Name </label>
+            <input type="text" id="card-name7" class="form-control" name="name" placeholder="Enter Name Here"  required/>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="card-name">Address Line 1</label>
+            <input type="text" id="card-name6" class="form-control" name="address" placeholder="Enter Address Here"  required/>
+          </div>
+        </div>
+
+
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="card-name">State</label>
+            <input type="text" id="card-name5" class="form-control" name="state" placeholder="Enter State Here"  required/>
+          </div>
+        </div>
+
+
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="card-name">City</label>
+            <input type="text" id="card-name4" class="form-control" name="city" placeholder="Enter City Here" required/>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="card-name">Postcode / ZIP</label>
+            <input type="text" id="card-name3" class="form-control" name="zip" placeholder="Enter your PIN" required />
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="card-name">Contact (It will used to keep you update with your order)</label>
+            <input type="text" id="card-name2" class="form-control" name="contact" placeholder="+91 "   required />
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="card-name">Email (It will used to keep you update with your order)</label>
+            <input type="text" id="card-name1" class="form-control" name="email" placeholder="example@gmail.com" required/>
+          </div>
+        </div>
+
+
+        
+        
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+      </div>
+      <button id="submit-btn" type="submit" class="btn btn-dark button-style">
+        Buy now
+      </button>
+    </form>
+  </div>
+</div>
+
+<script type="text/javascript" src="https://js.stripe.com/v3/"></script>
+<script type="text/javascript" src="javascripts/checkout.js"></script>
+
+<%- include ../partials/footer %>

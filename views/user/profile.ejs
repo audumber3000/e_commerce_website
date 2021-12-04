@@ -1,0 +1,136 @@
+<%- include ../partials/header %>
+<%- include ../partials/categories-navbar %>
+<script>https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css</script>
+<script>https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js</script>
+<script>https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css</script>
+<script>https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js</script>
+
+<div class="container">
+ 
+  <p><%= orders[0].OrderConfirmed %></p>
+  <!-- Flash messages -->
+      <div class="row mt-3 mb-3">
+        <div class="col-md-8 m-auto">
+          <% if (successMsg) { %>
+          <div id="success" class="alert alert-success">
+            <%= successMsg %>
+          </div>
+          <% } else { %>
+          <div id="success" class="alert alert-success d-none"></div>
+          <% } %>
+        </div>
+        <div class="col-md-8 m-auto">
+          <% if (errorMsg) { %>
+          <div id="error" class="alert alert-danger">
+            <%= errorMsg %>
+          </div>
+          <% } else { %>
+          <div id="error" class="alert alert-danger d-none"></div>
+          <% } %>
+        </div>
+      </div>
+  <!-- User's orders -->
+  <div class="row mt-4">
+    <div class="col-md-8 m-auto">
+      <% if (orders != null && orders.length > 0) { %>
+      <h3>My orders</h3>
+      <% orders.forEach( order => { %>
+      <div class="card m-3">
+        <div class="card-body">
+          <p class="card-text ">
+            <ul class="list-group">
+              <% order.cart.items.forEach( item => { %>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <%= item.title %> | <%= item.qty %> Units
+                <span class="badge badge-info badge-pill"><%= item.price %></span>
+              </li>
+              <%}) %>
+            </ul>
+          </p>
+
+
+
+         
+           
+              <div class="row">
+                  <div class="col-md-12">
+                      <div class="bg-white p-2 border rounded px-3">
+                          <div class="d-flex flex-row justify-content-between align-items-center order">
+                              <div class="d-flex flex-column order-details"><span>Your order Current Status</span><span class="date">by DHFL on 21 Jan, 2020</span></div>
+                              <div class="tracking-details"><button class="btn btn-outline-primary btn-sm" type="button">Track order details</button></div>
+                          </div>
+                          <hr class="divider mb-4">
+                          <div class="d-flex flex-row justify-content-between align-items-center align-content-center"><span class="dot"></span>
+                            <% if (orders[0].OrderConfirmed) { %>
+                              <hr class="flex-fill track-line" "><span class="dot"></span>
+
+                            <%}else{%>
+                              <hr class="flex-fill track-line" style="background-color:grey;"><span class="dot" style="background-color:grey;"></span>
+
+                              <%}%>
+                         
+
+                              <% if (orders[0]. Dispatched) { %>
+                                  <hr class="flex-fill track-line" ><span class="dot"></span>
+                              
+  
+                              <%}else{%>
+                                <hr class="flex-fill track-line" style="background-color: grey;"><span style="background-color: grey;" class="dot"></span>
+                              
+  
+                                <%}%>
+
+
+
+                                <% if (orders[0].Delivered) { %>
+                                  <hr class="flex-fill track-line" ><span class="d-flex justify-content-center align-items-center big-dot dot"><i class="fa fa-check text-white"></i></span></div>
+    
+                                <%}else{%>
+                                  <hr class="flex-fill track-line" style="background-color: grey;"><span class="d-flex justify-content-center align-items-center big-dot dot" style="background-color: grey;"><i class="fa fa-check text-white" style="background-color: grey;"></i></span></div>
+    
+                                  <%}%>
+
+
+                             
+                              
+                          <div class="d-flex flex-row justify-content-between align-items-center">
+                              <div class="d-flex flex-column align-items-start" ><span><img class="icon" src="https://image.flaticon.com/icons/png/128/3496/3496155.png"></span><span>Order placed</span></div>
+                              <div class="d-flex flex-column justify-content-center"><span><img class="icon" src="https://static.thenounproject.com/png/812938-200.png"></span><span>Order Confirmed</span></div>
+                              <div class="d-flex flex-column justify-content-center align-items-center"><span><img class="icon" src="https://www.redwoodlogistics.com/wp-content/uploads/2018/03/dispatch_icon-1.jpg"></span><span>Order Dispatched</span></div>
+ 
+                              <div class="d-flex flex-column align-items-end"><span><img class="icon" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQisa2C6ooIVCzAHLhtlNeek4Mg3Q4jVlXpg&usqp=CAU"></span><span>Delivered</span></div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+         
+        
+
+
+
+
+
+
+
+
+
+
+        </div>
+        <div class="card-footer">
+          <strong>Total Price: $<%= order.cart.totalCost %></strong>
+        </div>
+      </div>
+      <%}) %>
+      <%} else { %>
+        <h3 class="text-center" >You have not made any orders yet</h3>
+      <%} %>
+    </div>
+  </div>
+</div>
+
+<div class=body1>
+
+</div>
+
+
+<%- include ../partials/footer %>

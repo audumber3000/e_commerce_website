@@ -1,0 +1,131 @@
+<%- include ../partials/header %> <%- include ../partials/categories-navbar %>
+<div class="container mt-4 mb-5">
+  <!-- Flash messages -->
+ 
+  <div class="col-md-8 m-auto">
+    <!-- Checkout form -->
+    <%= csrfToken %>
+      <div class="row">
+        <div class="col-md-12">
+            <h2>Final CheckOut !</h2>
+          <div class="form-group">
+         
+            <label for="card-name"><b>Order ID :</b>  <%=cart._id %></label>
+            <br>
+            <label for="card-name"><b>Total Cost :</b> <%=cart.totalCost  %></label>
+            <br>
+            <label for="card-name"><b>Total Quantity :</b>  <%=cart.totalQty  %></label>
+            <br>
+            <label for="card-name"><b>Created At:</b> <%=cart.createdAt %> </label>
+            <br>
+            <label for="card-name"></label>
+            <br>
+            <label for="card-name" style="color: green;"> Thank you very much for your purchase. Your support is much appreciated and We looking forward to hearing your thoughts on your purchase!</label>
+          </div>
+        </div>
+        <div class="col-md-12">
+       
+        </div>
+        <form action="/success" method="POST" id="checkout-form1"   ></form>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+        <input type="hidden" name="name" value="<%= name %>" />
+        <input type="hidden" name="address" value="<%= address %>" />
+        <input type="hidden" name="state" value="<%= state %>" />
+        <input type="hidden" name="city" value="<%= city %>" />
+        <input type="hidden" name="zip" value="<%= zip %>" />
+        <input type="hidden" name="contact" value="<%= contact %>" />
+        <input type="hidden" name="mail" value="<%= email %>" />
+        <input type="hidden" id="myField1"  name ="payment_id"  value="" />
+        <input type="hidden" id="myField2"  name ="order_id"  value="" />
+
+       
+      </form>
+
+
+      <form action="/failer" method="POST" id="checkout-form2"   ></form>
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+      <input type="hidden" name="name" value="<%= name %>" />
+      <input type="hidden" name="address" value="<%= address %>" />
+      <input type="hidden" name="state" value="<%= state %>" />
+      <input type="hidden" name="city" value="<%= city %>" />
+      <input type="hidden" name="zip" value="<%= zip %>" />
+      <input type="hidden" name="contact" value="<%= contact %>" />
+      <input type="hidden" name="mail" value="<%= email %>" />
+      <input type="hidden" id="myField1"  name ="payment_id"  value="" />
+      <input type="hidden" id="myField2"  name ="order_id"  value="" />
+
+    
+    </form>
+
+
+      </div>
+      
+      <button class="btn btn-dark button-style" id="rzp-button1">Pay Now</button>
+   
+  </div>
+</div>
+
+<script type="text/javascript" src="https://js.stripe.com/v3/"></script>
+<script type="text/javascript" src="javascripts/checkout.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  
+var options = {
+    "key": "rzp_live_eZdWnBRmYRCLWo", // Enter the Key ID generated from the Dashboard
+    "amount": '<%-total%>', // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "Acme Corp",
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    // "order_id": "order_9A33XWu170gUtm", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": function (response){
+        document.getElementById('myField1').value = response.razorpay_payment_id;
+        document.getElementById('myField2').value = response.razorpay_order_id;
+        document.getElementById("checkout-form1").submit();
+ 
+        alert(response.razorpay_payment_id);
+        alert(response.razorpay_order_id);
+        alert(response.razorpay_signature)
+
+      
+
+    },
+    "prefill": {
+        "name": "Gaurav Kumar",
+        "email": "gaurav.kumar@example.com",
+        "contact": "9999999999"
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+var rzp1 = new Razorpay(options);
+rzp1.on('payment.failed', function (response){
+    document.getElementById('myField3').value = response.error.reason;
+        document.getElementById('myField4').value = response.error.metadata.order_id;
+        document.getElementById("checkout-form2").submit();
+
+     alert(response.error.code);
+        alert(response.error.description);
+        alert(response.error.source);
+        alert(response.error.step);
+        alert(response.error.reason);
+        alert(response.error.metadata.order_id);
+        alert(response.error.metadata.payment_id);
+});
+document.getElementById('rzp-button1').onclick = function(e){
+
+   
+
+    rzp1.open();
+    e.preventDefault();
+}
+
+
+</script>
+
+
+<%- include ../partials/footer %>
